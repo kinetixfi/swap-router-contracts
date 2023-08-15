@@ -16,9 +16,9 @@ const completeFixture: Fixture<{
 
   const tokenFactory = await ethers.getContractFactory('TestERC20')
   const tokens: [TestERC20, TestERC20, TestERC20] = [
-    (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20, // do not use maxu256 to avoid overflowing
-    (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
-    (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20,
+    ((await tokenFactory.deploy(constants.MaxUint256.div(2))) as unknown) as TestERC20, // do not use maxu256 to avoid overflowing
+    ((await tokenFactory.deploy(constants.MaxUint256.div(2))) as unknown) as TestERC20,
+    ((await tokenFactory.deploy(constants.MaxUint256.div(2))) as unknown) as TestERC20,
   ]
 
   tokens.sort((a, b) => (a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1))

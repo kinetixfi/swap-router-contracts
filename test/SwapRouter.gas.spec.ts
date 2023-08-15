@@ -1,5 +1,5 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
-import { abi as IUniswapV3PoolABI } from '@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
+import { abi as IUniswapV3PoolABI } from '@kinetix/v3-core-smart-contracts/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
 import { Fixture } from 'ethereum-waffle'
 import { BigNumber, constants, ContractTransaction, Wallet } from 'ethers'
 import { solidityPack } from 'ethers/lib/utils'
@@ -31,7 +31,7 @@ describe('SwapRouter gas tests', function () {
     for (const token of tokens) {
       await token.approve(router.address, constants.MaxUint256)
       await token.approve(nft.address, constants.MaxUint256)
-      await token.connect(trader).approve(router.address, constants.MaxUint256)
+      await token.connect(<any>trader).approve(router.address, constants.MaxUint256)
       await token.transfer(trader.address, expandTo18Decimals(1_000_000))
     }
 
@@ -81,11 +81,9 @@ describe('SwapRouter gas tests', function () {
       factory.getPool(weth9.address, tokens[0].address, FeeAmount.MEDIUM),
     ])
 
-    const pools = poolAddresses.map((poolAddress) => new ethers.Contract(poolAddress, IUniswapV3PoolABI, wallet)) as [
-      IUniswapV3Pool,
-      IUniswapV3Pool,
-      IUniswapV3Pool
-    ]
+    const pools = (poolAddresses.map(
+      (poolAddress) => new ethers.Contract(poolAddress, IUniswapV3PoolABI, wallet)
+    ) as unknown) as [IUniswapV3Pool, IUniswapV3Pool, IUniswapV3Pool]
 
     return {
       weth9,
@@ -153,7 +151,7 @@ describe('SwapRouter gas tests', function () {
       data.push(encodeUnwrapWETH9(amountOutMinimum))
     }
 
-    return router.connect(trader)['multicall(uint256,bytes[])'](1, data, { value })
+    return router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data, { value })
   }
 
   async function exactInputSingle(
@@ -183,7 +181,7 @@ describe('SwapRouter gas tests', function () {
       data.push(encodeUnwrapWETH9(amountOutMinimum))
     }
 
-    return router.connect(trader)['multicall(uint256,bytes[])'](1, data, { value })
+    return router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data, { value })
   }
 
   async function exactOutput(tokens: string[]): Promise<ContractTransaction> {
@@ -211,7 +209,7 @@ describe('SwapRouter gas tests', function () {
       data.push(encodeUnwrapWETH9(amountOut))
     }
 
-    return router.connect(trader)['multicall(uint256,bytes[])'](1, data, { value })
+    return router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data, { value })
   }
 
   async function exactOutputSingle(
@@ -245,7 +243,7 @@ describe('SwapRouter gas tests', function () {
       data.push(encodeUnwrapWETH9(amountOut))
     }
 
-    return router.connect(trader)['multicall(uint256,bytes[])'](1, data, { value })
+    return router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data, { value })
   }
 
   // TODO should really throw this in the fixture
@@ -294,7 +292,7 @@ describe('SwapRouter gas tests', function () {
       const calleeFactory = await ethers.getContractFactory('TestUniswapV3Callee')
       const callee = await calleeFactory.deploy()
 
-      await tokens[0].connect(trader).approve(callee.address, constants.MaxUint256)
+      await tokens[0].connect(<any>trader).approve(callee.address, constants.MaxUint256)
       await snapshotGasCost(callee.connect(trader).swapExact0For1(pools[0].address, 2, trader.address, '4295128740'))
     })
 
@@ -326,8 +324,8 @@ describe('SwapRouter gas tests', function () {
     })
 
     it('2 trades (via router)', async () => {
-      await weth9.connect(trader).deposit({ value: 3 })
-      await weth9.connect(trader).approve(router.address, constants.MaxUint256)
+      await weth9.connect(<any>trader).deposit({ value: 3 })
+      await weth9.connect(<any>trader).approve(router.address, constants.MaxUint256)
       const swap0 = {
         path: encodePath([weth9.address, tokens[0].address], [FeeAmount.MEDIUM]),
         recipient: ADDRESS_THIS,
@@ -348,12 +346,12 @@ describe('SwapRouter gas tests', function () {
         encodeSweep(tokens[0].address, 2),
       ]
 
-      await snapshotGasCost(router.connect(trader)['multicall(uint256,bytes[])'](1, data))
+      await snapshotGasCost(router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data))
     })
 
     it('2 trades (directly to sender)', async () => {
-      await weth9.connect(trader).deposit({ value: 3 })
-      await weth9.connect(trader).approve(router.address, constants.MaxUint256)
+      await weth9.connect(<any>trader).deposit({ value: 3 })
+      await weth9.connect(<any>trader).approve(router.address, constants.MaxUint256)
       const swap0 = {
         path: encodePath([weth9.address, tokens[0].address], [FeeAmount.MEDIUM]),
         recipient: MSG_SENDER,
@@ -373,12 +371,12 @@ describe('SwapRouter gas tests', function () {
         router.interface.encodeFunctionData('exactInput', [swap1]),
       ]
 
-      await snapshotGasCost(router.connect(trader)['multicall(uint256,bytes[])'](1, data))
+      await snapshotGasCost(router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data))
     })
 
     it('3 trades (directly to sender)', async () => {
-      await weth9.connect(trader).deposit({ value: 3 })
-      await weth9.connect(trader).approve(router.address, constants.MaxUint256)
+      await weth9.connect(<any>trader).deposit({ value: 3 })
+      await weth9.connect(<any>trader).approve(router.address, constants.MaxUint256)
       const swap0 = {
         path: encodePath([weth9.address, tokens[0].address], [FeeAmount.MEDIUM]),
         recipient: MSG_SENDER,
@@ -406,7 +404,7 @@ describe('SwapRouter gas tests', function () {
         router.interface.encodeFunctionData('exactInput', [swap2]),
       ]
 
-      await snapshotGasCost(router.connect(trader)['multicall(uint256,bytes[])'](1, data))
+      await snapshotGasCost(router.connect(<any>trader)['multicall(uint256,bytes[])'](1, data))
     })
   })
 

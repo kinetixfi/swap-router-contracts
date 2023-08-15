@@ -37,12 +37,16 @@ describe('MixedRouteQuoterV1', function () {
     for (const token of tokens) {
       await token.approve(router.address, constants.MaxUint256)
       await token.approve(nft.address, constants.MaxUint256)
-      await token.connect(trader).approve(router.address, constants.MaxUint256)
+      await token.connect(<any>trader).approve(router.address, constants.MaxUint256)
       await token.transfer(trader.address, expandTo18Decimals(1_000_000))
     }
 
     const quoterFactory = await ethers.getContractFactory('MixedRouteQuoterV1')
-    quoter = (await quoterFactory.deploy(factory.address, factoryV2.address, weth9.address)) as MixedRouteQuoterV1
+    quoter = ((await quoterFactory.deploy(
+      factory.address,
+      factoryV2.address,
+      weth9.address
+    )) as unknown) as MixedRouteQuoterV1
 
     return {
       tokens,
@@ -89,17 +93,17 @@ describe('MixedRouteQuoterV1', function () {
     const token0BalanceBefore = await token0.balanceOf(pairAddress)
     const token1BalanceBefore = await token1.balanceOf(pairAddress)
 
-    await token0.transfer(pairAddress, ethers.utils.parseEther(amount0))
-    await token1.transfer(pairAddress, ethers.utils.parseEther(amount1))
+    await token0.transfer(pairAddress, <any>ethers.utils.parseEther(amount0))
+    await token1.transfer(pairAddress, <any>ethers.utils.parseEther(amount1))
 
-    expect(await token0.balanceOf(pairAddress)).to.equal(token0BalanceBefore.add(ethers.utils.parseEther(amount0)))
-    expect(await token1.balanceOf(pairAddress)).to.equal(token1BalanceBefore.add(ethers.utils.parseEther(amount1)))
+    expect(await token0.balanceOf(pairAddress)).to.equal(token0BalanceBefore.add(<any>ethers.utils.parseEther(amount0)))
+    expect(await token1.balanceOf(pairAddress)).to.equal(token1BalanceBefore.add(<any>ethers.utils.parseEther(amount1)))
 
     await pair.mint(wallet.address) // update the reserves
 
     const [reserve0, reserve1] = await pair.callStatic.getReserves()
-    expect(reserve0).to.equal(reserve0Before.add(ethers.utils.parseEther(amount0)))
-    expect(reserve1).to.equal(reserve1Before.add(ethers.utils.parseEther(amount1)))
+    expect(reserve0).to.equal(reserve0Before.add(<any>ethers.utils.parseEther(amount0)))
+    expect(reserve1).to.equal(reserve1Before.add(<any>ethers.utils.parseEther(amount1)))
   }
 
   describe('quotes', () => {
@@ -341,7 +345,7 @@ describe('MixedRouteQuoterV1', function () {
     describe('#quoteExactInput V2 only', () => {
       it('0 -> 2', async () => {
         const { amountOut, v3SwapGasEstimate } = await quoter.callStatic['quoteExactInput(bytes,uint256)'](
-          encodePath([tokens[0].address, tokens[2].address], [V2_FEE_PLACEHOLDER]),
+          encodePath([tokens[0].address, tokens[2].address], [<any>V2_FEE_PLACEHOLDER]),
           10000
         )
 
@@ -352,7 +356,7 @@ describe('MixedRouteQuoterV1', function () {
         const { amountOut, v3SwapGasEstimate } = await quoter.callStatic['quoteExactInput(bytes,uint256)'](
           encodePath(
             [tokens[0].address, tokens[1].address, tokens[2].address],
-            [V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER]
+            [<any>V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER]
           ),
           10000
         )
@@ -450,7 +454,7 @@ describe('MixedRouteQuoterV1', function () {
         ///     - thus, we expect it to be reverted.
         await expect(
           quoter.callStatic['quoteExactInput(bytes,uint256)'](
-            encodePath([tokens[0].address, tokens[1].address], [V3_MAX_FEE]),
+            encodePath([tokens[0].address, tokens[1].address], [<any>V3_MAX_FEE]),
             10000
           )
         ).to.be.reverted

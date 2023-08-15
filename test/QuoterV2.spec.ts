@@ -27,12 +27,12 @@ describe('QuoterV2', function () {
     for (const token of tokens) {
       await token.approve(router.address, constants.MaxUint256)
       await token.approve(nft.address, constants.MaxUint256)
-      await token.connect(trader).approve(router.address, constants.MaxUint256)
+      await token.connect(<any>trader).approve(router.address, constants.MaxUint256)
       await token.transfer(trader.address, expandTo18Decimals(1_000_000))
     }
 
     const quoterFactory = await ethers.getContractFactory('QuoterV2')
-    quoter = (await quoterFactory.deploy(factory.address, weth9.address)) as QuoterV2
+    quoter = ((await quoterFactory.deploy(factory.address, weth9.address)) as unknown) as QuoterV2
 
     return {
       tokens,

@@ -17,34 +17,34 @@ const UNI = '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
 const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 
 /// @dev basic V2 routes
-const DAI_V2_UNI_V2_WETH = encodePath([DAI, UNI, WETH], [V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER])
-const USDC_V2_UNI_V2_WETH = encodePath([USDC, UNI, WETH], [V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER])
+const DAI_V2_UNI_V2_WETH = encodePath([DAI, UNI, WETH], [<any>V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER])
+const USDC_V2_UNI_V2_WETH = encodePath([USDC, UNI, WETH], [<any>V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER])
 
 /// @dev basic V3 routes
 const USDC_V3_USDT = encodePath([USDC, USDT], [FeeAmount.LOW])
 const UNI_V3_WETH = encodePath([UNI, WETH], [FeeAmount.MEDIUM])
 
 /// @dev stablecoin IL routes
-const USDT_V3_DAI_V2_USDC = encodePath([USDT, DAI, USDC], [FeeAmount.LOW, V2_FEE_PLACEHOLDER])
-const DAI_V3_USDC_V2_USDT = encodePath([DAI, USDC, USDT], [100, V2_FEE_PLACEHOLDER])
+const USDT_V3_DAI_V2_USDC = encodePath([USDT, DAI, USDC], [FeeAmount.LOW, <any>V2_FEE_PLACEHOLDER])
+const DAI_V3_USDC_V2_USDT = encodePath([DAI, USDC, USDT], [<any>100, V2_FEE_PLACEHOLDER])
 
 /// @dev erc20 IL routes
 // V3 - V2
-const UNI_V3_WETH_V2_DAI = encodePath([UNI, WETH, DAI], [FeeAmount.MEDIUM, V2_FEE_PLACEHOLDER])
-const USDC_V3_UNI_V2_WETH = encodePath([USDC, UNI, WETH], [FeeAmount.MEDIUM, V2_FEE_PLACEHOLDER])
+const UNI_V3_WETH_V2_DAI = encodePath([UNI, WETH, DAI], [FeeAmount.MEDIUM, <any>V2_FEE_PLACEHOLDER])
+const USDC_V3_UNI_V2_WETH = encodePath([USDC, UNI, WETH], [FeeAmount.MEDIUM, <any>V2_FEE_PLACEHOLDER])
 // V2 - V3
-const UNI_V2_WETH_V3_DAI = encodePath([UNI, WETH, DAI], [V2_FEE_PLACEHOLDER, FeeAmount.MEDIUM])
+const UNI_V2_WETH_V3_DAI = encodePath([UNI, WETH, DAI], [<any>V2_FEE_PLACEHOLDER, FeeAmount.MEDIUM])
 
 /// @dev complex IL routes
 // (use two V3 pools)
 const DAI_V3_3000_UNI_V2_USDT_V3_3000_WETH = encodePath(
   [DAI, UNI, USDT, WETH],
-  [FeeAmount.MEDIUM, V2_FEE_PLACEHOLDER, FeeAmount.MEDIUM]
+  [FeeAmount.MEDIUM, <any>V2_FEE_PLACEHOLDER, FeeAmount.MEDIUM]
 )
 // (use two V2 pools)
 const DAI_V3_3000_UNI_V2_USDT_V2_WETH = encodePath(
   [DAI, UNI, USDT, WETH],
-  [FeeAmount.MEDIUM, V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER]
+  [FeeAmount.MEDIUM, <any>V2_FEE_PLACEHOLDER, V2_FEE_PLACEHOLDER]
 )
 
 describe('MixedRouteQuoterV1 integration tests', function () {
@@ -70,7 +70,11 @@ describe('MixedRouteQuoterV1 integration tests', function () {
     })
 
     const MixedRouteQuoterV1Factory = await ethers.getContractFactory('MixedRouteQuoterV1')
-    mixedRouteQuoter = (await MixedRouteQuoterV1Factory.deploy(V3_FACTORY, V2_FACTORY, WETH)) as MixedRouteQuoterV1
+    mixedRouteQuoter = ((await MixedRouteQuoterV1Factory.deploy(
+      V3_FACTORY,
+      V2_FACTORY,
+      WETH
+    )) as unknown) as MixedRouteQuoterV1
   })
 
   after(async () => {

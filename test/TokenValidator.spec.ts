@@ -56,14 +56,14 @@ describe('TokenValidator', function () {
     })
 
     const factory = await ethers.getContractFactory('TokenValidator')
-    tokenValidator = (await factory.deploy(
+    tokenValidator = ((await factory.deploy(
       '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f', // V2 Factory
       '0xC36442b4a4522E871399CD717aBDD847Ab11FE88' // V3 NFT position manager
-    )) as TokenValidator
+    )) as unknown) as TokenValidator
 
     // Deploy a new token for testing.
     const tokenFactory = await ethers.getContractFactory('TestERC20')
-    testToken = (await tokenFactory.deploy(constants.MaxUint256.div(2))) as TestERC20
+    testToken = ((await tokenFactory.deploy(constants.MaxUint256.div(2))) as unknown) as TestERC20
   })
 
   after(async () => {

@@ -8,7 +8,7 @@ describe('MulticallExtended', async () => {
 
   beforeEach('create multicall', async () => {
     const multicallTestFactory = await ethers.getContractFactory('TestMulticallExtended')
-    multicall = (await multicallTestFactory.deploy()) as TestMulticallExtended
+    multicall = ((await multicallTestFactory.deploy()) as unknown) as TestMulticallExtended
   })
 
   it('fails deadline check', async () => {

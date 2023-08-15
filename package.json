@@ -1,20 +1,24 @@
 {
-  "name": "@uniswap/swap-router-contracts",
-  "description": "Smart contracts for swapping on Uniswap V2 and V3",
+  "name": "@kinetix/swap-router-contracts",
+  "description": "Smart contracts for swapping on Kinetix V3",
+  "version": "1.3.0",
   "license": "GPL-2.0-or-later",
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.3.0",
-  "homepage": "https://uniswap.org",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test"
+  },
+  "homepage": "https://kinetix.finance",
   "keywords": [
-    "uniswap",
-    "v2",
+    "kinetix",
+    "kava",
     "v3"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/swap-router-contracts"
+    "url": "https://github.com/kinetixfi/swap-router-contracts"
   },
   "files": [
     "contracts/base",
@@ -29,10 +33,10 @@
     "node": ">=10"
   },
   "dependencies": {
+    "@kinetix/v3-core-smart-contracts": "^1.0.0",
+    "@kinetix/v3-periphery": "^1.0.0",
     "@openzeppelin/contracts": "3.4.2-solc-0.7",
     "@uniswap/v2-core": "1.0.1",
-    "@uniswap/v3-core": "1.0.0",
-    "@uniswap/v3-periphery": "1.4.1",
     "dotenv": "^14.2.0",
     "hardhat-watcher": "^2.1.1"
   },
@@ -60,9 +64,5 @@
     "ts-node": "^8.5.4",
     "typechain": "^4.0.0",
     "typescript": "^3.7.3"
-  },
-  "scripts": {
-    "compile": "hardhat compile",
-    "test": "hardhat test"
   }
 }

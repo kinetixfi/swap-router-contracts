@@ -41,12 +41,16 @@ describe('SwapRouter', function () {
     for (const token of tokens) {
       await token.approve(router.address, constants.MaxUint256)
       await token.approve(nft.address, constants.MaxUint256)
-      await token.connect(trader).approve(router.address, constants.MaxUint256)
+      await token.connect(<any>trader).approve(router.address, constants.MaxUint256)
       await token.transfer(trader.address, expandTo18Decimals(1_000_000))
     }
 
     const quoterFactory = await ethers.getContractFactory('MixedRouteQuoterV1')
-    quoter = (await quoterFactory.deploy(factory.address, factoryV2.address, weth9.address)) as MixedRouteQuoterV1
+    quoter = ((await quoterFactory.deploy(
+      factory.address,
+      factoryV2.address,
+      weth9.address
+    )) as unknown) as MixedRouteQuoterV1
 
     return {
       weth9,
@@ -195,10 +199,10 @@ describe('SwapRouter', function () {
         }
 
         // ensure that the swap fails if the limit is any tighter
-        const amountOut = await router.connect(trader).callStatic.exactInput(params, { value })
+        const amountOut = await router.connect(<any>trader).callStatic.exactInput(params, { value })
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
 
-        return router.connect(trader)['multicall(bytes[])'](data, { value })
+        return router.connect(<any>trader)['multicall(bytes[])'](data, { value })
       }
 
       describe('single-pool', () => {
@@ -421,13 +425,13 @@ describe('SwapRouter', function () {
         }
 
         // ensure that the swap fails if the limit is any tighter
-        const amountOut = await router.connect(trader).callStatic.exactInputSingle(params, { value })
+        const amountOut = await router.connect(<any>trader).callStatic.exactInputSingle(params, { value })
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
 
         // optimized for the gas test
         return data.length === 1
-          ? router.connect(trader).exactInputSingle(params, { value })
-          : router.connect(trader)['multicall(bytes[])'](data, { value })
+          ? router.connect(<any>trader).exactInputSingle(params, { value })
+          : router.connect(<any>trader)['multicall(bytes[])'](data, { value })
       }
 
       it('0 -> 1', async () => {
@@ -554,10 +558,10 @@ describe('SwapRouter', function () {
         }
 
         // ensure that the swap fails if the limit is any tighter
-        const amountIn = await router.connect(trader).callStatic.exactOutput(params, { value })
+        const amountIn = await router.connect(<any>trader).callStatic.exactOutput(params, { value })
         expect(amountIn.toNumber()).to.be.eq(amountInMaximum)
 
-        return router.connect(trader)['multicall(bytes[])'](data, { value })
+        return router.connect(<any>trader)['multicall(bytes[])'](data, { value })
       }
 
       describe('single-pool', () => {
@@ -777,10 +781,10 @@ describe('SwapRouter', function () {
         }
 
         // ensure that the swap fails if the limit is any tighter
-        const amountIn = await router.connect(trader).callStatic.exactOutputSingle(params, { value })
+        const amountIn = await router.connect(<any>trader).callStatic.exactOutputSingle(params, { value })
         expect(amountIn.toNumber()).to.be.eq(amountInMaximum)
 
-        return router.connect(trader)['multicall(bytes[])'](data, { value })
+        return router.connect(<any>trader)['multicall(bytes[])'](data, { value })
       }
 
       it('0 -> 1', async () => {
@@ -906,7 +910,7 @@ describe('SwapRouter', function () {
             ]
           ),
         ]
-        await router.connect(trader)['multicall(bytes[])'](data)
+        await router.connect(<any>trader)['multicall(bytes[])'](data)
         const balance = await tokens[1].balanceOf(feeRecipient)
         expect(balance.eq(1)).to.be.eq(true)
       })
@@ -937,7 +941,7 @@ describe('SwapRouter', function () {
             ]
           ),
         ]
-        await router.connect(trader)['multicall(bytes[])'](data)
+        await router.connect(<any>trader)['multicall(bytes[])'](data)
         const endBalance = await waffle.provider.getBalance(feeRecipient)
         expect(endBalance.sub(startBalance).eq(1)).to.be.eq(true)
       })
@@ -948,7 +952,7 @@ describe('SwapRouter', function () {
     await factoryV2.createPair(tokenA.address, tokenB.address)
 
     const pairAddress = await factoryV2.getPair(tokenA.address, tokenB.address)
-    const pair = new ethers.Contract(pairAddress, PAIR_V2_ABI, wallet) as IUniswapV2Pair
+    const pair = (new ethers.Contract(pairAddress, PAIR_V2_ABI, wallet) as unknown) as IUniswapV2Pair
 
     await tokenA.transfer(pair.address, liquidity)
     await tokenB.transfer(pair.address, liquidity)
@@ -998,10 +1002,10 @@ describe('SwapRouter', function () {
 
         // ensure that the swap fails if the limit is any tighter
         const paramsWithValue: [number, number, string[], string, { value: number }] = [...params, { value }]
-        const amountOut = await router.connect(trader).callStatic.swapExactTokensForTokens(...paramsWithValue)
+        const amountOut = await router.connect(<any>trader).callStatic.swapExactTokensForTokens(...paramsWithValue)
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
 
-        return router.connect(trader)['multicall(bytes[])'](data, { value })
+        return router.connect(<any>trader)['multicall(bytes[])'](data, { value })
       }
 
       describe('single-pool', () => {
@@ -1186,10 +1190,10 @@ describe('SwapRouter', function () {
 
         // ensure that the swap fails if the limit is any tighter
         const paramsWithValue: [number, number, string[], string, { value: number }] = [...params, { value }]
-        const amountIn = await router.connect(trader).callStatic.swapTokensForExactTokens(...paramsWithValue)
+        const amountIn = await router.connect(<any>trader).callStatic.swapTokensForExactTokens(...paramsWithValue)
         expect(amountIn.toNumber()).to.be.eq(amountInMaximum)
 
-        return router.connect(trader)['multicall(bytes[])'](data, { value })
+        return router.connect(<any>trader)['multicall(bytes[])'](data, { value })
       }
 
       describe('single-pool', () => {
@@ -1367,7 +1371,7 @@ describe('SwapRouter', function () {
 
       if (!skipAmountOutMinimumCheck) {
         // ensure that the swap fails if the limit is any tighter
-        const amountOut = await router.connect(trader).callStatic.exactInput(params)
+        const amountOut = await router.connect(<any>trader).callStatic.exactInput(params)
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
       }
 
@@ -1390,7 +1394,7 @@ describe('SwapRouter', function () {
       const data = [router.interface.encodeFunctionData('exactOutput', [params])]
 
       // ensure that the swap fails if the limit is any tighter
-      const amountIn = await router.connect(trader).callStatic.exactOutput(params)
+      const amountIn = await router.connect(<any>trader).callStatic.exactOutput(params)
       expect(amountIn.toNumber()).to.be.eq(amountInMaximum)
 
       return data
@@ -1409,7 +1413,7 @@ describe('SwapRouter', function () {
 
       if (!skipAmountOutMinimumCheck) {
         // ensure that the swap fails if the limit is any tighter
-        const amountOut = await router.connect(trader).callStatic.swapExactTokensForTokens(...params)
+        const amountOut = await router.connect(<any>trader).callStatic.swapExactTokensForTokens(...params)
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
       }
 
@@ -1427,7 +1431,7 @@ describe('SwapRouter', function () {
       const data = [router.interface.encodeFunctionData('swapTokensForExactTokens', params)]
 
       // ensure that the swap fails if the limit is any tighter
-      const amountIn = await router.connect(trader).callStatic.swapTokensForExactTokens(...params)
+      const amountIn = await router.connect(<any>trader).callStatic.swapTokensForExactTokens(...params)
       expect(amountIn.toNumber()).to.be.eq(amountInMaximum)
 
       return data
@@ -1450,7 +1454,7 @@ describe('SwapRouter', function () {
 
         const traderBefore = await getBalances(trader.address)
 
-        await router.connect(trader)['multicall(bytes[])']([...swapV3, ...swapV2])
+        await router.connect(<any>trader)['multicall(bytes[])']([...swapV3, ...swapV2])
 
         const traderAfter = await getBalances(trader.address)
         expect(traderAfter.token0).to.be.eq(traderBefore.token0.sub(5))
@@ -1475,7 +1479,7 @@ describe('SwapRouter', function () {
 
         const traderBefore = await getBalances(trader.address)
 
-        await router.connect(trader)['multicall(bytes[])']([...swapV3, ...swapV2, sweep])
+        await router.connect(<any>trader)['multicall(bytes[])']([...swapV3, ...swapV2, sweep])
 
         const traderAfter = await getBalances(trader.address)
         expect(traderAfter.token0).to.be.eq(traderBefore.token0.sub(5))
@@ -1511,7 +1515,7 @@ describe('SwapRouter', function () {
 
         const traderBefore = await getBalances(trader.address)
 
-        await router.connect(trader)['multicall(bytes[])']([...swapV3, ...swapV2, ...mergeSwap])
+        await router.connect(<any>trader)['multicall(bytes[])']([...swapV3, ...swapV2, ...mergeSwap])
 
         const traderAfter = await getBalances(trader.address)
         expect(traderAfter.token0).to.be.eq(traderBefore.token0.sub(6))
@@ -1542,7 +1546,7 @@ describe('SwapRouter', function () {
 
         const traderBefore = await getBalances(trader.address)
 
-        await router.connect(trader)['multicall(bytes[])']([...swapV3, ...swapV2, ...mergeSwap])
+        await router.connect(<any>trader)['multicall(bytes[])']([...swapV3, ...swapV2, ...mergeSwap])
 
         const traderAfter = await getBalances(trader.address)
         expect(traderAfter.token0).to.be.eq(traderBefore.token0.sub(6))
@@ -1569,7 +1573,7 @@ describe('SwapRouter', function () {
         )
 
         const traderBefore = await getBalances(trader.address)
-        await router.connect(trader)['multicall(bytes[])']([...swapV3, ...swapV2])
+        await router.connect(<any>trader)['multicall(bytes[])']([...swapV3, ...swapV2])
         const traderAfter = await getBalances(trader.address)
 
         expect(traderAfter.token0).to.be.eq(traderBefore.token0.sub(10))
@@ -1579,7 +1583,10 @@ describe('SwapRouter', function () {
 
         // expect to equal quoter output
         const { amountOut: quoterAmountOut } = await quoter.callStatic['quoteExactInput(bytes,uint256)'](
-          encodePath([tokens[0].address, tokens[1].address, tokens[2].address], [FeeAmount.MEDIUM, V2_FEE_PLACEHOLDER]),
+          encodePath(
+            [tokens[0].address, tokens[1].address, tokens[2].address],
+            [FeeAmount.MEDIUM, <any>V2_FEE_PLACEHOLDER]
+          ),
           10
         )
 
@@ -1603,7 +1610,7 @@ describe('SwapRouter', function () {
         )
 
         const traderBefore = await getBalances(trader.address)
-        await router.connect(trader)['multicall(bytes[])']([...swapV2, ...swapV3])
+        await router.connect(<any>trader)['multicall(bytes[])']([...swapV2, ...swapV3])
         const traderAfter = await getBalances(trader.address)
 
         expect(traderAfter.token0).to.be.eq(traderBefore.token0.sub(10))
@@ -1613,7 +1620,10 @@ describe('SwapRouter', function () {
 
         // expect to equal quoter output
         const { amountOut: quoterAmountOut } = await quoter.callStatic['quoteExactInput(bytes,uint256)'](
-          encodePath([tokens[0].address, tokens[1].address, tokens[2].address], [V2_FEE_PLACEHOLDER, FeeAmount.MEDIUM]),
+          encodePath(
+            [tokens[0].address, tokens[1].address, tokens[2].address],
+            [<any>V2_FEE_PLACEHOLDER, FeeAmount.MEDIUM]
+          ),
           10
         )
         expect(quoterAmountOut.eq(routerAmountOut)).to.be.true

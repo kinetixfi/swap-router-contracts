@@ -39,7 +39,7 @@ describe('PeripheryPaymentsExtended', function () {
       const value = ethers.utils.parseEther('1')
 
       const weth9BalancePrev = await weth9.balanceOf(router.address)
-      await router.wrapETH(value, { value })
+      await router.wrapETH(<any>value, { value })
       const weth9BalanceCurrent = await weth9.balanceOf(router.address)
 
       expect(weth9BalanceCurrent.sub(weth9BalancePrev)).to.equal(value)

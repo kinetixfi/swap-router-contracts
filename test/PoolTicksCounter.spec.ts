@@ -23,7 +23,7 @@ describe('PoolTicksCounter', () => {
       const wallets = await (ethers as any).getSigners()
       PoolAbi = await artifacts.readArtifact('IUniswapV3Pool')
       const poolTicksHelperFactory = await ethers.getContractFactory('PoolTicksCounterTest')
-      PoolTicksCounter = (await poolTicksHelperFactory.deploy()) as PoolTicksCounterTest
+      PoolTicksCounter = ((await poolTicksHelperFactory.deploy()) as unknown) as PoolTicksCounterTest
       pool = await deployMockContract(wallets[0], PoolAbi.abi)
       await pool.mock.tickSpacing.returns(TICK_SPACING)
     })

@@ -17,7 +17,7 @@ describe('ImmutableState', () => {
     const { nft } = await completeFixture(wallets, provider)
 
     const stateFactory = await ethers.getContractFactory('ImmutableStateTest')
-    const state = (await stateFactory.deploy(factoryV2.address, nft.address)) as ImmutableStateTest
+    const state = ((await stateFactory.deploy(factoryV2.address, nft.address)) as unknown) as ImmutableStateTest
 
     return {
       nft,

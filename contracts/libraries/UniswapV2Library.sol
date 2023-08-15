@@ -2,7 +2,7 @@
 pragma solidity >=0.5.0;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
-import '@uniswap/v3-core/contracts/libraries/LowGasSafeMath.sol';
+import '@kinetix/v3-core-smart-contracts/contracts/libraries/LowGasSafeMath.sol';
 
 library UniswapV2Library {
     using LowGasSafeMath for uint256;
@@ -15,11 +15,7 @@ library UniswapV2Library {
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
-    function pairFor(
-        address factory,
-        address tokenA,
-        address tokenB
-    ) internal pure returns (address pair) {
+    function pairFor(address factory, address tokenA, address tokenB) internal pure returns (address pair) {
         (address token0, address token1) = sortTokens(tokenA, tokenB);
         pair = address(
             uint256(

@@ -215,7 +215,7 @@ describe('ApproveAndCall', function () {
           amountOutMinimum,
         }
         // ensure that the swap fails if the limit is any tighter
-        const amountOut = await router.connect(trader).callStatic.exactInput(params)
+        const amountOut = await router.connect(<any>trader).callStatic.exactInput(params)
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
         const data = [router.interface.encodeFunctionData('exactInput', [params])]
 
@@ -252,7 +252,7 @@ describe('ApproveAndCall', function () {
         data.push(encodeSweepToken(tokenIn, 0))
         data.push(encodeSweepToken(tokenOut, 0))
 
-        return router.connect(trader)['multicall(bytes[])'](data)
+        return router.connect(<any>trader)['multicall(bytes[])'](data)
       }
 
       it('0 -> 1', async () => {
@@ -261,7 +261,7 @@ describe('ApproveAndCall', function () {
 
         // prep for the swap + add by sending tokens
         await tokens[0].transfer(trader.address, amountIn + amountOutMinimum)
-        await tokens[0].connect(trader).approve(router.address, amountIn + amountOutMinimum)
+        await tokens[0].connect(<any>trader).approve(router.address, amountIn + amountOutMinimum)
 
         const traderToken0BalanceBefore = await tokens[0].balanceOf(trader.address)
         const traderToken1BalanceBefore = await tokens[1].balanceOf(trader.address)
@@ -305,7 +305,7 @@ describe('ApproveAndCall', function () {
           amountOutMinimum,
         }
         // ensure that the swap fails if the limit is any tighter
-        let amountOut = await router.connect(trader).callStatic.exactInput(params)
+        let amountOut = await router.connect(<any>trader).callStatic.exactInput(params)
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
         let data = [router.interface.encodeFunctionData('exactInput', [params])]
 
@@ -317,7 +317,7 @@ describe('ApproveAndCall', function () {
           amountOutMinimum,
         }
         // ensure that the swap fails if the limit is any tighter
-        amountOut = await router.connect(trader).callStatic.exactInput(params)
+        amountOut = await router.connect(<any>trader).callStatic.exactInput(params)
         expect(amountOut.toNumber()).to.be.eq(amountOutMinimum)
         data.push(router.interface.encodeFunctionData('exactInput', [params]))
 
@@ -350,7 +350,7 @@ describe('ApproveAndCall', function () {
         data.push(encodeSweepToken(tokenA, 0))
         data.push(encodeSweepToken(tokenB, 0))
 
-        return router.connect(trader)['multicall(bytes[])'](data)
+        return router.connect(<any>trader)['multicall(bytes[])'](data)
       }
 
       it('0 -> 1 and 0 -> 2', async () => {
@@ -359,7 +359,7 @@ describe('ApproveAndCall', function () {
 
         // prep for the swap + add by sending tokens
         await tokens[0].transfer(trader.address, amountIn * 2)
-        await tokens[0].connect(trader).approve(router.address, amountIn * 2)
+        await tokens[0].connect(<any>trader).approve(router.address, amountIn * 2)
 
         const traderToken0BalanceBefore = await tokens[0].balanceOf(trader.address)
         const traderToken1BalanceBefore = await tokens[1].balanceOf(trader.address)

@@ -23,7 +23,7 @@ describe('OracleSlippage', function () {
     const oracleFactory = await ethers.getContractFactory('OracleSlippageTest')
     const oracle = await oracleFactory.deploy(constants.AddressZero, constants.AddressZero)
 
-    return oracle as OracleSlippageTest
+    return (oracle as unknown) as OracleSlippageTest
   }
 
   before('create fixture loader', async () => {
@@ -49,7 +49,7 @@ describe('OracleSlippage', function () {
     const mockPool = await mockObservationsFactory.deploy(blockTimestamps, ticks, mockLowObservationCardinality)
     await oracle.registerPool(mockPool.address, tokenA, tokenB, fee)
     await oracle.setTime(blockTimestamps[blockTimestamps.length - 1])
-    return mockPool as MockObservations
+    return (mockPool as unknown) as MockObservations
   }
 
   describe('#getBlockStartingAndCurrentTick', () => {
