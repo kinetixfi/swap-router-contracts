@@ -2,7 +2,7 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@kinetix/v3-core-smart-contracts/contracts/libraries/LowGasSafeMath.sol';
+import '@kinetix/v3-core/contracts/libraries/LowGasSafeMath.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
 import './interfaces/IV2SwapRouter.sol';

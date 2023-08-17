@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.7.6;
 
-import '@kinetix/v3-core-smart-contracts/contracts/libraries/Oracle.sol';
+import '@kinetix/v3-core/contracts/libraries/Oracle.sol';
 
 contract MockObservations {
     using Oracle for Oracle.Observation[65535];

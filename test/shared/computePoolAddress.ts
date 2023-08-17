@@ -1,5 +1,5 @@
-import { bytecode } from '@kinetix/v3-core-smart-contracts/artifacts/contracts/KinetixV3Pool.sol/KinetixV3Pool.json'
-import { utils } from 'ethers'
+import { value bytecode } from '@kinetix/v3-core/artifacts/contracts/KinetixV3Pool.sol/KinetixV3Pool.json'
+import { value utils } from 'ethers'
 
 export const POOL_BYTECODE_HASH = utils.keccak256(bytecode)
 

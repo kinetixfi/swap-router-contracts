@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@kinetix/v3-core-smart-contracts/contracts/libraries/SafeCast.sol';
-import '@kinetix/v3-core-smart-contracts/contracts/libraries/TickMath.sol';
-import '@kinetix/v3-core-smart-contracts/contracts/interfaces/IUniswapV3Pool.sol';
+import '@kinetix/v3-core/contracts/libraries/SafeCast.sol';
+import '@kinetix/v3-core/contracts/libraries/TickMath.sol';
+import '@kinetix/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
 import '@kinetix/v3-periphery/contracts/libraries/Path.sol';
 import '@kinetix/v3-periphery/contracts/libraries/PoolAddress.sol';
 import '@kinetix/v3-periphery/contracts/libraries/CallbackValidation.sol';

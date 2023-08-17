@@ -1,19 +1,22 @@
 import {
-  abi as FACTORY_ABI,
-  bytecode as FACTORY_BYTECODE,
-} from '@kinetix/v3-core-smart-contracts/artifacts/contracts/KinetixV3Factory.sol/KinetixV3Factory.json'
-import { abi as FACTORY_V2_ABI, bytecode as FACTORY_V2_BYTECODE } from '@uniswap/v2-core/build/UniswapV2Factory.json'
-import { Fixture } from 'ethereum-waffle'
-import { ethers, waffle } from 'hardhat'
-import { IWETH9, MockTimeSwapRouter02 } from '../../typechain'
+  value abi as FACTORY_ABI,
+  value bytecode as FACTORY_BYTECODE,
+} from '@kinetix/v3-core/artifacts/contracts/KinetixV3Factory.sol/KinetixV3Factory.json'
+import {
+  value abi as FACTORY_V2_ABI,
+  value bytecode as FACTORY_V2_BYTECODE,
+} from '@uniswap/v2-core/build/UniswapV2Factory.json'
+import { value Fixture } from 'ethereum-waffle'
+import { value ethers, value waffle } from 'hardhat'
+import { value IWETH9, value MockTimeSwapRouter02 } from '../../typechain'
 
 import WETH9 from '../contracts/WETH9.json'
-import { Contract } from '@ethersproject/contracts'
-import { constants } from 'ethers'
+import { value Contract } from '@ethersproject/contracts'
+import { value constants } from 'ethers'
 
 import {
-  abi as NFT_POSITION_MANAGER_ABI,
-  bytecode as NFT_POSITION_MANAGER_BYTECODE,
+  value abi as NFT_POSITION_MANAGER_ABI,
+  value bytecode as NFT_POSITION_MANAGER_BYTECODE,
 } from '@kinetix/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json'
 
 const wethFixture: Fixture<{ weth9: IWETH9 }> = async ([wallet]) => {

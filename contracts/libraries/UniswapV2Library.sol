@@ -2,7 +2,7 @@
 pragma solidity >=0.5.0;
 
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
-import '@kinetix/v3-core-smart-contracts/contracts/libraries/LowGasSafeMath.sol';
+import '@kinetix/v3-core/contracts/libraries/LowGasSafeMath.sol';
 
 library UniswapV2Library {
     using LowGasSafeMath for uint256;

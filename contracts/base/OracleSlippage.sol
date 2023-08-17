@@ -8,7 +8,7 @@ import '@kinetix/v3-periphery/contracts/base/PeripheryImmutableState.sol';
 import '@kinetix/v3-periphery/contracts/base/BlockTimestamp.sol';
 import '@kinetix/v3-periphery/contracts/libraries/Path.sol';
 import '@kinetix/v3-periphery/contracts/libraries/PoolAddress.sol';
-import '@kinetix/v3-core-smart-contracts/contracts/interfaces/IUniswapV3Pool.sol';
+import '@kinetix/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
 import '@kinetix/v3-periphery/contracts/libraries/OracleLibrary.sol';
 
 abstract contract OracleSlippage is IOracleSlippage, PeripheryImmutableState, BlockTimestamp {
