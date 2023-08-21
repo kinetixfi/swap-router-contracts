@@ -11,7 +11,7 @@ import '@kinetix/v3-core/contracts/interfaces/callback/IUniswapV3SwapCallback.so
 import '@kinetix/v3-periphery/contracts/libraries/Path.sol';
 import '@kinetix/v3-periphery/contracts/libraries/PoolAddress.sol';
 import '@kinetix/v3-periphery/contracts/libraries/CallbackValidation.sol';
-import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
+import '@kinetix/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
 
 import '../base/ImmutableState.sol';
 import '../interfaces/IMixedRouteQuoterV1.sol';

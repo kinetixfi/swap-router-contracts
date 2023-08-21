@@ -36,7 +36,7 @@
     "@kinetix/v3-core": "^1.0.0",
     "@kinetix/v3-periphery": "^1.0.0",
     "@openzeppelin/contracts": "3.4.2-solc-0.7",
-    "@uniswap/v2-core": "1.0.1",
+    "@kinetix/v2-core": "1.0.0",
     "dotenv": "^14.2.0",
     "hardhat-watcher": "^2.1.1"
   },

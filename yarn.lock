@@ -878,6 +878,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@kinetix/v2-core@1.0.0":
+  version "1.0.0"
+  resolved "http://localhost:4873/@kinetix/v2-core/-/v2-core-1.0.0.tgz#f2f3126d9bc24ed6214347f67d757e4068ed9ff6"
+  integrity sha512-ygLZQAB6OkPxhnh7VGKzOFdEiECaptxCnxNaoJbY3A8SRalbkUrQTsdrnCKlnFOEk/+O1p1fdEPNdShHPSpHPw==
+
 "@kinetix/v3-core@^1.0.0":
   version "1.0.0"
   resolved "http://localhost:4873/@kinetix/v3-core/-/v3-core-1.0.0.tgz#6f23fb66039e9ea43fd4d3b1409e23a03db56eed"

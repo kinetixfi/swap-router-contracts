@@ -1,5 +1,5 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
-import { abi as PAIR_V2_ABI } from '@uniswap/v2-core/build/UniswapV2Pair.json'
+import { abi as PAIR_V2_ABI } from '@kinetix/v2-core/build/KinetixV2Pair.json'
 import { Fixture } from 'ethereum-waffle'
 import { BigNumber, constants, Contract, ContractTransaction, Wallet } from 'ethers'
 import { solidityPack } from 'ethers/lib/utils'
@@ -46,11 +46,11 @@ describe('SwapRouter', function () {
     }
 
     const quoterFactory = await ethers.getContractFactory('MixedRouteQuoterV1')
-    quoter = ((await quoterFactory.deploy(
+    quoter = (await quoterFactory.deploy(
       factory.address,
       factoryV2.address,
       weth9.address
-    )) as unknown) as MixedRouteQuoterV1
+    )) as unknown as MixedRouteQuoterV1
 
     return {
       weth9,
@@ -70,9 +70,7 @@ describe('SwapRouter', function () {
   let quoter: MixedRouteQuoterV1
   let nft: Contract
   let tokens: [TestERC20, TestERC20, TestERC20]
-  let getBalances: (
-    who: string
-  ) => Promise<{
+  let getBalances: (who: string) => Promise<{
     weth9: BigNumber
     token0: BigNumber
     token1: BigNumber
@@ -952,7 +950,7 @@ describe('SwapRouter', function () {
     await factoryV2.createPair(tokenA.address, tokenB.address)
 
     const pairAddress = await factoryV2.getPair(tokenA.address, tokenB.address)
-    const pair = (new ethers.Contract(pairAddress, PAIR_V2_ABI, wallet) as unknown) as IUniswapV2Pair
+    const pair = new ethers.Contract(pairAddress, PAIR_V2_ABI, wallet) as unknown as IUniswapV2Pair
 
     await tokenA.transfer(pair.address, liquidity)
     await tokenB.transfer(pair.address, liquidity)
@@ -968,7 +966,7 @@ describe('SwapRouter', function () {
 
     async function createPoolWETH9(token: TestERC20) {
       await weth9.deposit({ value: liquidity })
-      return createV2Pool((weth9 as unknown) as TestERC20, token)
+      return createV2Pool(weth9 as unknown as TestERC20, token)
     }
 
     beforeEach('create 0-1 and 1-2 pools', async () => {

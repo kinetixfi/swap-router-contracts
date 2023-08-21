@@ -1,18 +1,18 @@
-import { value defaultAbiCoder } from '@ethersproject/abi'
-import { value abi as IUniswapV3PoolABI } from '@kinetix/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
-import { value Fixture } from 'ethereum-waffle'
-import { value BigNumber, value constants, value ContractTransaction, value Wallet } from 'ethers'
-import { value solidityPack } from 'ethers/lib/utils'
-import { value ethers, value waffle } from 'hardhat'
-import { value IUniswapV3Pool, value IWETH9, value MockTimeSwapRouter02, value TestERC20 } from '../typechain'
+import { defaultAbiCoder } from '@ethersproject/abi'
+import { abi as IUniswapV3PoolABI } from '@kinetix/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json'
+import { Fixture } from 'ethereum-waffle'
+import { BigNumber, constants, ContractTransaction, Wallet } from 'ethers'
+import { solidityPack } from 'ethers/lib/utils'
+import { ethers, waffle } from 'hardhat'
+import { IUniswapV3Pool, IWETH9, MockTimeSwapRouter02, TestERC20 } from '../typechain'
 import completeFixture from './shared/completeFixture'
-import { value ADDRESS_THIS, value FeeAmount, value MSG_SENDER, value TICK_SPACINGS } from './shared/constants'
-import { value encodePriceSqrt } from './shared/encodePriceSqrt'
-import { value expandTo18Decimals } from './shared/expandTo18Decimals'
-import { value expect } from './shared/expect'
-import { value encodePath } from './shared/path'
+import { ADDRESS_THIS, FeeAmount, MSG_SENDER, TICK_SPACINGS } from './shared/constants'
+import { encodePriceSqrt } from './shared/encodePriceSqrt'
+import { expandTo18Decimals } from './shared/expandTo18Decimals'
+import { expect } from './shared/expect'
+import { encodePath } from './shared/path'
 import snapshotGasCost from './shared/snapshotGasCost'
-import { value getMaxTick, value getMinTick } from './shared/ticks'
+import { getMaxTick, getMinTick } from './shared/ticks'
 
 describe('SwapRouter gas tests', function () {
   this.timeout(40000)
@@ -81,9 +81,9 @@ describe('SwapRouter gas tests', function () {
       factory.getPool(weth9.address, tokens[0].address, FeeAmount.MEDIUM),
     ])
 
-    const pools = (poolAddresses.map(
+    const pools = poolAddresses.map(
       (poolAddress) => new ethers.Contract(poolAddress, IUniswapV3PoolABI, wallet)
-    ) as unknown) as [IUniswapV3Pool, IUniswapV3Pool, IUniswapV3Pool]
+    ) as unknown as [IUniswapV3Pool, IUniswapV3Pool, IUniswapV3Pool]
 
     return {
       weth9,
